@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}FASIS Kunden{% endblock %}
+
+{% block heading %}
+  <h2>FASIS Kunden</h2>
+{% endblock %}
+
+{% block content %}
+  <ul class="list-unstyled">
+  {% for customer in customers %}
+    <li class="well well-sm">{% include "core/customer.html" %}</li>
+  {% empty %}
+    <li>Keine Kunden vorhanden. :(</li>
+  {% endfor %}
+  </ul>
+{% endblock %}

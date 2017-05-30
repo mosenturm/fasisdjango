@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}Kunden{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+{% endblock %}
+
+{% block heading %}
+  <h2>FASIS Kunden</h2>
+  <p>
+    <a href="{% url 'customer_create' %}" id="create" name="create" class="btn btn-default">Kunde anlegen</a>
+  </p>
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+  <table id="cust_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>+</th>
+                <th>Name</th>
+                <th>Kontakt</th>
+                <th>Straße</th>
+                <th>Ort</th>
+                <th>PLZ</th>
+                <th>Email</th>
+                <th>Webseite</th>
+                <th>Telefon</th>
+                <th>Mobil</th>
+                <th>Fax</th>
+                <th>Notizen</th>
+                <th>Kategorie</th>
+                <th>Typ</th>
+                <th>id</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>+</th>
+                <th>Name</th>
+                <th>Kontakt</th>
+                <th>Straße</th>
+                <th>Ort</th>
+                <th>PLZ</th>
+                <th>Email</th>
+                <th>Webseite</th>
+                <th>Telefon</th>
+                <th>Mobil</th>
+                <th>Fax</th>
+                <th>Notizen</th>
+                <th>Kategorie</th>
+                <th>Typ</th>
+                <th>id</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>  
+<!-- Modal for delete -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Abbrechen"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalLabel">Datensatz löschen</h4>
+      </div>
+      <div class="modal-body">
+        Kunde wirklich löschen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-primary" id="btnDelete">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+        <script>
+            /* Formatting function for row details  */
+            /* additional rows showing on click at info icon */
+            function format ( d ) {
+                // `d` is the original data object for the row
+                return '<table class= "table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                    '<tr>'+
+                        '<td>Kunde:</td>'+
+                        '<td>'+d.fields.cust_name+'<br/>'+d.fields.street+'<br/>'
+                              +d.fields.zip+' '+d.fields.city+
+                        '</td>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td>Notizen:</td>'+
+                        '<td>'+d.fields.note+'</td>'+
+                    '</tr>'+
+                '</table>';
+            }
+            /* initialisation for DataTable */
+            $(document).ready(function() {
+                var ctable = $('#cust_list').DataTable( {
+                    "ajax": {
+                         url: '/custlist/dt/',
+                         dataSrc: '',
+                         type: 'GET' },
+                     "columns": [
+                        {
+                            "className":      'details-control',
+                            "orderable":      false,
+                            "data":           null,
+                            "defaultContent": '<span class="glyphicon glyphicon-info-sign fbtni"></span>&nbsp;<span class="glyphicon glyphicon-pencil fbtne"></span>&nbsp;<span class="glyphicon glyphicon-remove fbtnd" data-toggle="modal" data-target="#myModal"></span>'
+                        },
+                        { "data": "fields.cust_name" },
+                        { "data": "fields.cust_contact" },
+                        { "data": "fields.street" },
+                        { "data": "fields.city" },
+                        { "data": "fields.zip" },
+                        { "data": "fields.email" },
+                        { "data": "fields.website" },
+                        { "data": "fields.telefon" },
+                        { "data": "fields.mobile_phone" },
+                        { "data": "fields.fax" },
+                        { "data": "fields.note", "defaultContent": "<i>Not set</i>" },
+                        { "data": "fields.category" },
+                        { "data": "fields.type" },
+                        { "data": "pk" }
+                    ],
+                    "order": [[1, 'asc']],
+                    "columnDefs": [
+                        {
+                            "targets": [ 3, 11, 14 ],
+                            "visible": false
+                            //"searchable": false
+                        }
+                        ],
+                    "language": {
+                        "lengthMenu": "Zeige _MENU_ Kunden pro Seite",
+                        "zeroRecords": "Nichts gefunden - sorry",
+                        "info": "Seite _PAGE_ von _PAGES_",
+                        "infoEmpty": "Keine Daten vorhanden",
+                        "search": "Suche: ",
+                        "infoFiltered": "(gefiltert von _MAX_ Einträgen)"
+                    }
+
+                } );
+
+                // Add event listener for opening and closing details
+//                $('#cust_list tbody').on('click', 'td.details-control', function () {
+                $('#cust_list tbody').on('click', '.fbtni', function () {
+                    var tr = $(this).closest('tr');
+                    var row = ctable.row( tr );
+
+                    if ( row.child.isShown() ) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                        $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-info-sign");
+                    }
+                    else {
+                        // Open this row
+                        row.child( format(row.data()) ).show();
+                        tr.addClass('shown');
+                        $(this).parent().find(".glyphicon-info-sign").removeClass("glyphicon-info-sign").addClass("glyphicon-minus");
+                    }
+                } );
+                
+                // Add event listener for edit record
+                $('#cust_list tbody').on( 'click', '.fbtne', function () {
+                    var tr = $(this).closest('tr');
+                    var row = ctable.row( tr );
+                    console.log( row.data().pk );
+                    var url_mask = "{% url 'customer_edit' pk=12345 %}".replace(/12345/, row.data().pk.toString());
+                    window.location.href = url_mask;
+                } );
+
+                // Add event listener for delete record
+                $('#myModal').on( 'click', '#btnDelete', function () {
+                    var tr = $(this).closest('tr');
+                    var row = ctable.row( tr );
+                    console.log( row.data().pk );
+                    var url_mask = "{% url 'customer_delete' pk=12345 %}".replace(/12345/, row.data().pk.toString());
+                    window.location.href = url_mask;
+                } );
+            } ); // $document ready
+        </script>
+{% endblock %}

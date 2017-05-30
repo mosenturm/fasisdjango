@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Home
+{% endblock %}
+
+{% block heading %}
+  <div class="page-header">
+      <h2>
+        Fahnen Faßmann Standard InformationsSystem
+      </h2>
+  </div>
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-warning">
+        <h3>Noch nichts weiter implementiert!</h3>
+    </div>
+    <a href="{% url 'customer_table' %}">Kundenübersicht</a>  
+{% endblock %}

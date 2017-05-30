@@ -1,0 +1,19 @@
+<a class="lead" href="{{ customer.id }}">{{ customer.cust_name }}</a>
+{% if customer.city %}
+  <br>{{ customer.city }}
+{% endif %}
+{% if customer.note %}
+{% autoescape off %}
+  <br>{{ customer.note }}
+{% endautoescape %}
+{% endif %}
+{% if not bookmark.is_public %}
+  <br><span class="label label-warning">private</span>
+{% else %}
+    <br>
+{% endif %}
+{% if bookmark.tags.count %}
+  {% for tag in bookmark.tags.all %}
+    <span class="label label-primary">{{ tag|lower }}</span>&nbsp;
+  {% endfor %}
+{% endif %}

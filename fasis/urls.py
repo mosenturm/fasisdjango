@@ -19,7 +19,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.core.urlresolvers import reverse_lazy
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from core import views 
 
@@ -31,3 +31,4 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': '/login/'}),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+urlpatterns += staticfiles_urlpatterns()

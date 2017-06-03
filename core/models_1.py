@@ -58,6 +58,7 @@ class Customer(models.Model):
     mobile_phone = models.CharField(max_length=50, blank=True, null=True, verbose_name='mobil')
     fax = models.CharField(max_length=50, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
+    reminder = models.DateField(blank=True, verbose_name='WV', default='1970-01-01')
     category = models.ForeignKey(CustCategories, db_column='category_id')
     type = models.ForeignKey(CustTypes, db_column='type_id')
 

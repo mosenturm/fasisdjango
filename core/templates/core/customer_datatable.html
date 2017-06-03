@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="table-responsive">
-  <table id="cust_list" class="table table-striped table-bordered" cellspacing="0" width="100%">
+  <table id="cust_list" class="table table-striped table-condensed" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>+</th>
@@ -32,6 +32,7 @@
                 <th>Notizen</th>
                 <th>Kategorie</th>
                 <th>Typ</th>
+                <th>WV</th>
                 <th>id</th>
             </tr>
         </thead>
@@ -51,6 +52,7 @@
                 <th>Notizen</th>
                 <th>Kategorie</th>
                 <th>Typ</th>
+                <th>WV</th>
                 <th>id</th>
             </tr>
         </tfoot>
@@ -122,12 +124,13 @@
                         { "data": "fields.note", "defaultContent": "<i>Not set</i>" },
                         { "data": "fields.category" },
                         { "data": "fields.type" },
-                        { "data": "pk" }
+                        { "data": "fields.reminder" },
+                        { "data": "pk" },
                     ],
                     "order": [[1, 'asc']],
                     "columnDefs": [
                         {
-                            "targets": [ 3, 11, 14 ],
+                            "targets": [ 3, 11, 15 ],
                             "visible": false
                             //"searchable": false
                         }

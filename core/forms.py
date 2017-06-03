@@ -19,7 +19,8 @@ class CustomerForm(ModelForm):
                   'telefon', 
                   'mobile_phone', 
                   'fax', 
-                  'note', 
+                  'note',
+                  'reminder',
                   'category', 
                   'type']
         widgets = {

@@ -3,6 +3,7 @@
 # Create your views here.
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse, HttpResponse
+from django.utils import timezone
 
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
@@ -13,8 +14,15 @@ from .models_1 import Customer
 # Homepage mit dashboard
 @login_required
 def index(request):
-    return render(request, 'core/home.html')
+    reminders = Customer.objects.filter(reminder__gte=timezone.now()) # greater or equal
+    context = {'reminders': reminders}
+    return render(request, 'core/home.html', context)
 
+# edit reminder date
+def reminder_edit(request, pk):
+    #return render(request, 'core/home.html')
+    return redirect('home')
+    
 # for testing
 @login_required
 def customer_list(request):

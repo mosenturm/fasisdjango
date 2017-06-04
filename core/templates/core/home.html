@@ -14,8 +14,43 @@
 {% endblock %}
 
 {% block content %}
-    <div class="alert alert-warning">
-        <h3>Noch nichts weiter implementiert! Bitte Wünsche äußern!</h3>
+<div class="container-fluid">
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li class="active"><a href="#">Startseite <span class="sr-only">(aktuell)</span></a></li>
+          <li><a href="{% url 'customer_table' %}">Kundenübersicht</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Export</a></li>
+        </ul>
     </div>
-    <a href="{% url 'customer_table' %}">Kundenübersicht</a>  
+    <div class="col-sm-9 col-md-10 main">
+        <h1>FASIS Dashboard</h1>
+        {% if reminders|length == 0 %}
+           <div class="well well-sm">Aktuell sind keine Wiedervorlagen vorhanden.</div>
+        {% endif %}
+        {% if reminders|length > 0 %}
+          <h3>Wiedervorlagen:</h3>
+          <p>{{ reminders|length }} Wiedervorlage(n) aktuell</p>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Kunde</th>
+                <th>Wiedervorl.</th>
+                <th>...</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for reminder in reminders %}
+                    <tr>
+                      <td>{{ reminder.cust_name }}</td>
+                      <td>{{ reminder.reminder }}</td>
+                      <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+    </div>
+</div>
+
 {% endblock %}

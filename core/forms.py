@@ -2,6 +2,7 @@
 
 # Forms for the customer handling
 from django.forms import ModelForm
+from django.forms.widgets import DateInput
 from tinymce.widgets import TinyMCE
 from .models_1 import Customer
 
@@ -25,5 +26,6 @@ class CustomerForm(ModelForm):
                   'type']
         widgets = {
             'note': TinyMCE(attrs={'cols': 80, 'rows': 10}),
+            'reminder': DateInput(attrs={'class': 'datepicker'}),
         }
         #exclude = ('date_created', 'date_updated', 'owner')

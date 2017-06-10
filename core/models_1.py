@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from __future__ import unicode_literals
 
 from django.db import models
@@ -59,8 +53,8 @@ class Customer(models.Model):
     fax = models.CharField(max_length=50, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
     reminder = models.DateField(blank=True, verbose_name='WV', default='1970-01-01')
-    category = models.ForeignKey(CustCategories, db_column='category_id')
-    type = models.ForeignKey(CustTypes, db_column='type_id')
+    category = models.ForeignKey(CustCategories, db_column='category_id', verbose_name='Typ')
+    type = models.ForeignKey(CustTypes, db_column='type_id', verbose_name='Kategorie')
 
     class Meta:
         managed = True

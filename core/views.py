@@ -33,7 +33,7 @@ def customer_list(request):
 # AJAX JSON response for DataTable
 @login_required
 def get_customers(request):
-    customer = Customer.objects.all()
+    customer = Customer.objects.select_related("category").select_related("type").all()
     response = serializers.serialize("json", customer)
     return HttpResponse(response, content_type='application/json')
 

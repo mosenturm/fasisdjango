@@ -14,8 +14,11 @@ from .models_1 import Customer
 # Homepage mit dashboard
 @login_required
 def index(request):
-    reminders = Customer.objects.filter(reminder__gte=timezone.now()) # greater or equal
-    context = {'reminders': reminders}
+    #reminders = Customer.objects.filter(reminder__gte=timezone.now()) # greater or equal
+    reminders = Customer.objects.filter(reminder__gt='1970-01-01') # greater
+    context = {'reminders': reminders,
+               'datenow': timezone.now()
+    }
     return render(request, 'core/home.html', context)
 
 # edit reminder date

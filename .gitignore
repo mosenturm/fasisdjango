@@ -11,6 +11,9 @@
 *.mo
 *.zip
 
+# system shell stuff
+.profile
+
 # venv directories
 bin/
 include/

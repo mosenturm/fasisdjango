@@ -9,6 +9,13 @@
 *.log
 *.po
 *.mo
+*.zip
+
+# venv directories
+bin/
+include/
+lib/
+local/
 
 # config file with keys
 /fasis/configfasis.py

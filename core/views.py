@@ -17,7 +17,7 @@ def index(request):
     #reminders = Customer.objects.filter(reminder__gte=timezone.now()) # greater or equal
     reminders = Customer.objects.filter(reminder__gt='1970-01-01') # greater
     context = {'reminders': reminders,
-               'datenow': timezone.now()
+               'datenow': timezone.now(),
     }
     return render(request, 'core/home.html', context)
 

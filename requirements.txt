@@ -4,6 +4,7 @@ appdirs==1.4.3
 argparse==1.2.1
 chardet==3.0.2
 django-crispy-forms==1.6.1
+django-debug-toolbar==1.8
 django-tinymce==2.6.0
 gunicorn==19.7.1
 packaging==16.8

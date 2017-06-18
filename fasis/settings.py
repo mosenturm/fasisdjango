@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'csvimport.app.CSVImportConf',
     'tinymce',
     'crispy_forms',
 ]

@@ -40,13 +40,13 @@
                   <td class="danger">{{ reminder.cust_name }}</td>
                   <td class="danger">{{ reminder.reminder }}</td>
                   <td class="danger"><a class="btn btn-danger btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <button type="button" class="btn btn-danger btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal" <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                    <button type="button" class="btn btn-danger btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal" <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}" data-remindername="{{ reminder.custname }}" data-reminderdate="{{ reminder.reminder }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
                   </td>
                   {% else %}
                   <td>{{ reminder.cust_name }}</td>
                   <td>{{ reminder.reminder }}</td>
                   <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <button type="button" class="btn btn-info btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal"<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                    <button type="button" class="btn btn-info btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal"<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}" data-remindername="{{ reminder.custname }}" data-reminderdate="{{ reminder.reminder }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
                   </td>
                   {% endif %}
                 </tr>
@@ -78,16 +78,18 @@
 {% endblock %}
 {% block javascript %}
 <script>
-    // individual pk for button click here in this function available
+    // individual data for specific pk for button click here in this function available
     //
     $('#reMinderModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var reminder_id = button.data('reminderpk') // Extract info from data-* attributes
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var reminder_id = button.data('reminderpk'); // Extract info from data-* attributes
+      var reminder_name = button.data('remindername');
+      var reminder_date = button.data('reminderdate');
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
-      modal.find('.modal-title').text('Wiedervorlage für ' + reminder_id)
-      modal.find('.modal-body p').text(reminder_id)
+      modal.find('.modal-title').text('Wiedervorlage für <br/>' + reminder_name)
+      modal.find('.modal-body p').text("Dieses Datum: " + reminder_date + " ändern?")
     })    
 </script>
 {% endblock %}

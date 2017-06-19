@@ -25,7 +25,7 @@
         {% if reminders|length > 0 %}
           <h3>Wiedervorlagen:</h3>
           <p>{{ reminders|length }} Wiedervorlage(n) aktuell</p>
-          <table class="table table-striped table-bordered">
+          <table id="reminder_list" class="table table-striped table-bordered">
             <thead>
               <tr>
                 <th>Kunde</th>
@@ -39,11 +39,15 @@
                   {% if reminder.reminder|timesince >= "1 day" %}
                   <td class="danger">{{ reminder.cust_name }}</td>
                   <td class="danger">{{ reminder.reminder }}</td>
-                  <td class="danger"><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                  <td class="danger"><a class="btn btn-danger btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <button type="button" class="btn btn-danger btn-xs btn-block" id="reminder-{{ reminder.pk }}" onclick="divFunction('{{ reminder.pk }}')" data-toggle="modal" data-target="#myModal">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                  </td>
                   {% else %}
                   <td>{{ reminder.cust_name }}</td>
                   <td>{{ reminder.reminder }}</td>
-                  <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                  <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <button type="button" class="btn btn-info btn-xs btn-block" id="reminder-{{ reminder.pk }}" onclick="divFunction('{{ reminder.pk }}')" data-toggle="modal" data-target="#myModal">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                  </td>
                   {% endif %}
                 </tr>
               {% endfor %}
@@ -61,7 +65,7 @@
         <h4 class="modal-title" id="deleteModalLabel">Wiedervorlage bearbeiten</h4>
       </div>
       <div class="modal-body">
-        Wiedervorlage ändern oder löschen?
+        Wiedervorlage ändern oder löschen ({{ reminder.pk }})?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
@@ -76,19 +80,47 @@
 <script>
     $(document).ready(function() {
         // Add event listener for delete record
-        $('#cust_list tbody').on( 'click', '.fbtnd', function () {
-        //$('#myModal').on( 'click', '#btnDelete', function () {
-            var tr = $(this).closest('tr');
-            var row = ctable.row( tr );
-            // show confirmation dialog
-            $('#myModal').modal('show');
-            $('#myModal').on( 'click', '#btnDelete', function () {
-              console.log( row.data().pk.toString() + ' --> löschen wird ausgeführt.' );
-              var url_mask = "{% url 'customer_delete' pk=12345 %}".replace(/12345/, row.data().pk.toString());
-              window.location.href = url_mask;
-              $('#myModal').modal('hide');
-            } );
-        } );
+        // $('#reminder_list tbody').on( 'click', '.fbtnd', function () {
+        // //$('#myModal').on( 'click', '#btnDelete', function () {
+        //     var tr = $(this).closest('tr');
+        //     var row = ctable.row( tr );
+        //     // show confirmation dialog
+        //     $('#myModal').modal('show');
+        //     $('#myModal').on( 'click', '#btnDelete', function () {
+        //       console.log( row.data().pk.toString() + ' --> löschen wird ausgeführt.' );
+        //       var url_mask = "{% url 'customer_delete' pk=12345 %}".replace(/12345/, row.data().pk.toString());
+        //       window.location.href = url_mask;
+        //       $('#myModal').modal('hide');
+        //     } );
+        // } );
+
+        /* show reminder management modal popup */
+        function divFunction(id){
+        //Some code
+            console.log(id);
+            var sel = "#reminder-" + id.toString();
+            console.log(sel);
+            $('[id^=div-]').removeClass("show").addClass("hide");
+            if ( $(sel).hasClass("hide") ) {
+                $(sel).removeClass("hide").addClass("show");
+            } else {
+                $(sel).removeClass("show").addClass("hide");
+            }
+        }
+
     } ); // $document ready
+        /* show reminder management modal popup */
+        function divFunction(id){
+        //Some code
+            console.log(id);
+            var sel = "#reminder-" + id.toString();
+            console.log(sel);
+            $('[id^=div-]').removeClass("show").addClass("hide");
+            if ( $(sel).hasClass("hide") ) {
+                $(sel).removeClass("hide").addClass("show");
+            } else {
+                $(sel).removeClass("show").addClass("hide");
+            }
+        }
 </script>
 {% endblock %}

@@ -34,23 +34,61 @@
               </tr>
             </thead>
             <tbody>
-                {% for reminder in reminders %}
-                    <tr>
-                      {% if reminder.reminder|timesince >= "1 day" %}
-                      <td class="danger">{{ reminder.cust_name }}</td>
-                      <td class="danger">{{ reminder.reminder }}</td>
-                      <td class="danger"><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                      {% else %}
-                      <td>{{ reminder.cust_name }}</td>
-                      <td>{{ reminder.reminder }}</td>
-                      <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                      {% endif %}
-                    </tr>
-                {% endfor %}
+              {% for reminder in reminders %}
+                <tr id="reminder-{{ reminder.pk }}">
+                  {% if reminder.reminder|timesince >= "1 day" %}
+                  <td class="danger">{{ reminder.cust_name }}</td>
+                  <td class="danger">{{ reminder.reminder }}</td>
+                  <td class="danger"><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                  {% else %}
+                  <td>{{ reminder.cust_name }}</td>
+                  <td>{{ reminder.reminder }}</td>
+                  <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
         {% endif %}
     </div>
 </div>
-
+<!-- Modal for change reminder -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="reminderModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Abbrechen"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalLabel">Wiedervorlage bearbeiten</h4>
+      </div>
+      <div class="modal-body">
+        Wiedervorlage ändern oder löschen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-danger" id="btnDelete">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal end for change reminder -->
+{% endblock %}
+{% block javascript %}
+<script>
+    $(document).ready(function() {
+        // Add event listener for delete record
+        $('#cust_list tbody').on( 'click', '.fbtnd', function () {
+        //$('#myModal').on( 'click', '#btnDelete', function () {
+            var tr = $(this).closest('tr');
+            var row = ctable.row( tr );
+            // show confirmation dialog
+            $('#myModal').modal('show');
+            $('#myModal').on( 'click', '#btnDelete', function () {
+              console.log( row.data().pk.toString() + ' --> löschen wird ausgeführt.' );
+              var url_mask = "{% url 'customer_delete' pk=12345 %}".replace(/12345/, row.data().pk.toString());
+              window.location.href = url_mask;
+              $('#myModal').modal('hide');
+            } );
+        } );
+    } ); // $document ready
+</script>
 {% endblock %}

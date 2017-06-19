@@ -40,13 +40,13 @@
                   <td class="danger">{{ reminder.cust_name }}</td>
                   <td class="danger">{{ reminder.reminder }}</td>
                   <td class="danger"><a class="btn btn-danger btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <button type="button" class="btn btn-danger btn-xs btn-block" id="reminder-{{ reminder.pk }}" onclick="divFunction('{{ reminder.pk }}')" data-toggle="modal" data-target="#myModal">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                    <button type="button" class="btn btn-danger btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal" <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
                   </td>
                   {% else %}
                   <td>{{ reminder.cust_name }}</td>
                   <td>{{ reminder.reminder }}</td>
                   <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <button type="button" class="btn btn-info btn-xs btn-block" id="reminder-{{ reminder.pk }}" onclick="divFunction('{{ reminder.pk }}')" data-toggle="modal" data-target="#myModal">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                    <button type="button" class="btn btn-info btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal"<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
                   </td>
                   {% endif %}
                 </tr>
@@ -57,7 +57,7 @@
     </div>
 </div>
 <!-- Modal for change reminder -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="reminderModalLabel">
+<div class="modal fade" id="reMinderModal" tabindex="-1" role="dialog" aria-labelledby="reminderModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -65,7 +65,7 @@
         <h4 class="modal-title" id="deleteModalLabel">Wiedervorlage bearbeiten</h4>
       </div>
       <div class="modal-body">
-        Wiedervorlage ändern oder löschen ({{ reminder.pk }})?
+        <p>Wiedervorlage ändern oder löschen ({{ reminder.pk }})?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
@@ -78,49 +78,16 @@
 {% endblock %}
 {% block javascript %}
 <script>
-    $(document).ready(function() {
-        // Add event listener for delete record
-        // $('#reminder_list tbody').on( 'click', '.fbtnd', function () {
-        // //$('#myModal').on( 'click', '#btnDelete', function () {
-        //     var tr = $(this).closest('tr');
-        //     var row = ctable.row( tr );
-        //     // show confirmation dialog
-        //     $('#myModal').modal('show');
-        //     $('#myModal').on( 'click', '#btnDelete', function () {
-        //       console.log( row.data().pk.toString() + ' --> löschen wird ausgeführt.' );
-        //       var url_mask = "{% url 'customer_delete' pk=12345 %}".replace(/12345/, row.data().pk.toString());
-        //       window.location.href = url_mask;
-        //       $('#myModal').modal('hide');
-        //     } );
-        // } );
-
-        /* show reminder management modal popup */
-        function divFunction(id){
-        //Some code
-            console.log(id);
-            var sel = "#reminder-" + id.toString();
-            console.log(sel);
-            $('[id^=div-]').removeClass("show").addClass("hide");
-            if ( $(sel).hasClass("hide") ) {
-                $(sel).removeClass("hide").addClass("show");
-            } else {
-                $(sel).removeClass("show").addClass("hide");
-            }
-        }
-
-    } ); // $document ready
-        /* show reminder management modal popup */
-        function divFunction(id){
-        //Some code
-            console.log(id);
-            var sel = "#reminder-" + id.toString();
-            console.log(sel);
-            $('[id^=div-]').removeClass("show").addClass("hide");
-            if ( $(sel).hasClass("hide") ) {
-                $(sel).removeClass("hide").addClass("show");
-            } else {
-                $(sel).removeClass("show").addClass("hide");
-            }
-        }
+    // individual pk for button click here in this function available
+    //
+    $('#reMinderModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var reminder_id = button.data('reminderpk') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      modal.find('.modal-title').text('Wiedervorlage für ' + reminder_id)
+      modal.find('.modal-body p').text(reminder_id)
+    })    
 </script>
 {% endblock %}

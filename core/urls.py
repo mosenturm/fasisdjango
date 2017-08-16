@@ -18,7 +18,7 @@ urlpatterns = [
         name='customer_create'),
     url(r'^ajax/customerlist/$', core_views.get_customers, name='get_customers'), # AJAX
     url(r'^custlist/$', core_views.customer_table, name='customer_table'),
-    url(r'^reminder/edit/(?P<pk>\d+)/$', core_views.reminder_edit,
-        name='reminder_edit'),
+    url(r'^reminder/renew/(?P<pk>\d+)/$', core_views.renew_reminder,
+        name='renew_reminder'),
     url(r'^$', core_views.index, name='home'),
 ]

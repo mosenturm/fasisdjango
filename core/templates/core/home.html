@@ -18,6 +18,10 @@
         </ul>
     </div>
     <div class="col-sm-9 col-md-10 main">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <strong>Achtung!</strong> Das Wiedervorlagedatum kann jetzt mit Klick auf den Button geändert werden.
+        </div>
         <h1>FASIS Dashboard</h1>
         {% if reminders|length == 0 %}
            <div class="well well-sm">Aktuell sind keine Wiedervorlagen vorhanden.</div>
@@ -39,14 +43,12 @@
                   {% if reminder.reminder|timesince >= "1 day" %}
                   <td class="danger">{{ reminder.cust_name }}</td>
                   <td class="danger">{{ reminder.reminder }}</td>
-                  <td class="danger"><a class="btn btn-danger btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <button type="button" class="btn btn-danger btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal" <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}" data-remindername="{{ reminder.custname }}" data-reminderdate="{{ reminder.reminder }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                  <td class="danger"><a class="btn btn-danger btn-xs btn-block" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
                   </td>
                   {% else %}
                   <td>{{ reminder.cust_name }}</td>
                   <td>{{ reminder.reminder }}</td>
-                  <td><a class="btn btn-info btn-xs btn-block" href="{% url 'reminder_edit' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <button type="button" class="btn btn-info btn-xs btn-block" id="reminder-{{ reminder.pk }}" data-toggle="modal" data-target="#reMinderModal"<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-reminderpk="{{ reminder.pk }}" data-remindername="{{ reminder.custname }}" data-reminderdate="{{ reminder.reminder }}">Info <span class="glyphicon glyphicon-pencil"></span></button>
+                  <td><a class="btn btn-info btn-xs btn-block" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
                   </td>
                   {% endif %}
                 </tr>
@@ -56,25 +58,7 @@
         {% endif %}
     </div>
 </div>
-<!-- Modal for change reminder -->
-<div class="modal fade" id="reMinderModal" tabindex="-1" role="dialog" aria-labelledby="reminderModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Abbrechen"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="deleteModalLabel">Wiedervorlage bearbeiten</h4>
-      </div>
-      <div class="modal-body">
-        <p>Wiedervorlage ändern oder löschen ({{ reminder.pk }})?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-        <button type="button" class="btn btn-danger" id="btnDelete">Speichern</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal end for change reminder -->
+
 {% endblock %}
 {% block javascript %}
 <script>

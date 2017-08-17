@@ -36,7 +36,9 @@ class CustomerForm(ModelForm):
         #exclude = ('date_created', 'date_updated', 'owner')
         
 class RenewReminderForm(Form):
-    renewal_date = DateField(label='Wiedervorlage am: ', help_text="Ein Datum größer als das aktuelle Datum eingeben.")
+    renewal_date = DateField(label='Wiedervorlage am: ',
+                            help_text="Ein Datum größer als das aktuelle Datum eingeben.",
+                            )
 
     def clean_renewal_date(self):
         data = self.cleaned_data['renewal_date']

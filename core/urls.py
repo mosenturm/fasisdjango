@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^custlist/$', core_views.customer_table, name='customer_table'),
     url(r'^reminder/renew/(?P<pk>\d+)/$', core_views.renew_reminder,
         name='renew_reminder'),
+    url(r'^reminder/reset/(?P<pk>\d+)/$', core_views.reset_reminder,
+        name='reset_reminder'),
     url(r'^$', core_views.index, name='home'),
 ]

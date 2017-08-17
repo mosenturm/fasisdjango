@@ -20,7 +20,7 @@
     <div class="col-sm-9 col-md-10 main">
         <div class="alert alert-warning alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <strong>Achtung!</strong> Das Wiedervorlagedatum kann jetzt mit Klick auf den Button geändert werden.
+          <h2>Achtung!</h2> Das Wiedervorlagedatum kann jetzt mit Klick auf den Button geändert werden. Ebenso kann die Wiedervorlage gelöscht werden.
         </div>
         <h1>FASIS Dashboard</h1>
         {% if reminders|length == 0 %}
@@ -43,12 +43,15 @@
                   {% if reminder.reminder|timesince >= "1 day" %}
                   <td class="danger">{{ reminder.cust_name }}</td>
                   <td class="danger">{{ reminder.reminder }}</td>
-                  <td class="danger"><a class="btn btn-danger btn-xs btn-block" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                  <td class="danger">
+                    <a class="btn btn-danger btn-xs" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-danger btn-xs fbtnd" href="{% url 'reset_reminder' pk=reminder.pk %}" reminderid="{{ reminder.pk }}"><span class="glyphicon glyphicon-remove"></span></a>
                   </td>
                   {% else %}
                   <td>{{ reminder.cust_name }}</td>
                   <td>{{ reminder.reminder }}</td>
                   <td><a class="btn btn-info btn-xs btn-block" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <btn class="btn btn-danger btn-xs btn-block fbtnd" reminderid="{{ reminder.pk }}"><span class="glyphicon glyphicon-remove"></span></btn>
                   </td>
                   {% endif %}
                 </tr>
@@ -58,22 +61,43 @@
         {% endif %}
     </div>
 </div>
+<!-- Modal for delete -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Abbrechen"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="deleteModalLabel">WV löschen</h4>
+      </div>
+      <div class="modal-body">
+        Wiedervorlage wirklich löschen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+        <button type="button" class="btn btn-danger" id="btnDelete">Löschen</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal end for delete -->
 
 {% endblock %}
 {% block javascript %}
 <script>
-    // individual data for specific pk for button click here in this function available
-    //
-    $('#reMinderModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget); // Button that triggered the modal
-      var reminder_id = button.data('reminderpk'); // Extract info from data-* attributes
-      var reminder_name = button.data('remindername');
-      var reminder_date = button.data('reminderdate');
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this)
-      modal.find('.modal-title').text('Wiedervorlage für <br/>' + reminder_name)
-      modal.find('.modal-body p').text("Dieses Datum: " + reminder_date + " ändern?")
-    })    
+    $(document).ready(function() {
+
+        // Add event listener for delete record
+        $('#reminder_list tbody').on( 'click', '.fbtnd', function () {
+            // show confirmation dialog
+            var remid = $(this).attr('reminderid').toString();
+            $('#myModal').modal('show');
+            $('#myModal').on( 'click', '#btnDelete', function () {
+              console.log( remid.toString() + ' --> löschen wird ausgeführt.' );
+              var url_mask = "{% url 'reset_reminder' pk=12345 %}".replace(/12345/, remid);
+              window.location.href = url_mask;
+              $('#myModal').modal('hide');
+            } );
+        } );
+    } ); // document ready
 </script>
 {% endblock %}

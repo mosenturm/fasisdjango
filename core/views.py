@@ -24,6 +24,7 @@ def index(request):
     return render(request, 'core/home.html', context)
 
 # edit reminder date
+@login_required
 def renew_reminder(request, pk):
     cust_inst=get_object_or_404(Customer, pk = pk)
 
@@ -49,6 +50,17 @@ def renew_reminder(request, pk):
         
     return render(request, 'core/form_reminder.html', {'form': form, 'custinst':cust_inst})
     
+# edit reminder date
+@login_required
+def reset_reminder(request, pk):
+    cust_inst=get_object_or_404(Customer, pk = pk)
+
+    # If this is a GET request then reset reminder for given pk
+    if request.method == 'GET':
+        cust_inst.reminder = '1970-01-01'
+        cust_inst.save()
+    return redirect('home')
+
 # for testing
 @login_required
 def customer_list(request):

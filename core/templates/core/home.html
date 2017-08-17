@@ -45,13 +45,13 @@
                   <td class="danger">{{ reminder.reminder }}</td>
                   <td class="danger">
                     <a class="btn btn-danger btn-xs" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <a class="btn btn-danger btn-xs fbtnd" href="{% url 'reset_reminder' pk=reminder.pk %}" reminderid="{{ reminder.pk }}"><span class="glyphicon glyphicon-remove"></span></a>
+                    <btn class="btn btn-danger btn-xs fbtnd" reminderid="{{ reminder.pk }}"><span class="glyphicon glyphicon-remove"></span></btn>
                   </td>
                   {% else %}
                   <td>{{ reminder.cust_name }}</td>
                   <td>{{ reminder.reminder }}</td>
-                  <td><a class="btn btn-info btn-xs btn-block" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    <btn class="btn btn-danger btn-xs btn-block fbtnd" reminderid="{{ reminder.pk }}"><span class="glyphicon glyphicon-remove"></span></btn>
+                  <td><a class="btn btn-info btn-xs" href="{% url 'renew_reminder' pk=reminder.pk %}" id="reminder-{{ reminder.pk }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <btn class="btn btn-danger btn-xs fbtnd" reminderid="{{ reminder.pk }}"><span class="glyphicon glyphicon-remove"></span></btn>
                   </td>
                   {% endif %}
                 </tr>

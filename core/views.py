@@ -17,7 +17,7 @@ from .models_1 import Customer
 @login_required
 def index(request):
     #reminders = Customer.objects.filter(reminder__gte=timezone.now()) # greater or equal
-    reminders = Customer.objects.filter(reminder__gt='1970-01-01') # greater
+    reminders = Customer.objects.filter(reminder__gt='1970-01-01').order_by('reminder') # greater
     context = {'reminders': reminders,
                'datenow': timezone.now(),
     }

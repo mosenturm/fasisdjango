@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Forms for the customer handling
-from django.forms import ModelForm, Form, DateField
+from django.forms import ModelForm, Form, DateField, TextInput
 from django.forms.widgets import DateInput
 from django.core.exceptions import ValidationError
 
@@ -38,6 +38,10 @@ class CustomerForm(ModelForm):
 class RenewReminderForm(Form):
     renewal_date = DateField(label='Wiedervorlage am: ',
                             help_text="Ein Datum größer als das aktuelle Datum eingeben.",
+                            widget=TextInput(attrs=
+                                {
+                                    'class':'datepicker'
+                                })
                             )
 
     def clean_renewal_date(self):

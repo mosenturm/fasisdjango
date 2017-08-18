@@ -1,8 +1,14 @@
 {% extends "base.html" %}
+{% load static %}
 {% load bootstrap %}
 
 {% block title %}
   Kunde - {% if create %}neu{% else %}ändern{% endif %}
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'pickadate/themes/classic.css' %}" id="theme_base">
+<link rel="stylesheet" href="{% static 'pickadate/themes/classic.date.css' %}" id="theme_date">
 {% endblock %}
 
 {% block heading %}
@@ -27,9 +33,20 @@
   </form>
 {% endblock %}
 {% block javascript %}
-    <script>
-     $(document).ready(function(){
-      $('.datepicker').datepicker();
-    })</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/de.js"></script>
+<script src="{% static "pickadate/picker.js" %}"></script>
+<script src="{% static "pickadate/picker.date.js" %}"></script>
+<script src="{% static "pickadate/picker.time.js" %}"></script>
+<script src="{% static "pickadate/legacy.js" %}"></script>
+<script src="{% static "pickadate/translations/de_DE.js" %}"></script>
+<script>
+  $(document).ready(function(){
+    $('.datepicker').pickadate({
+      format: 'dd.mm.yyyy',
+      min: new Date(),
+    });
+  })
+</script>
 {% endblock %}
 
